@@ -1,11 +1,18 @@
 $bgcolor: #eee;
 $text-color: #444;
+$base-margin: 40px;
+
 
 body {
+  margin: 0;
   background-color: $bgcolor;
-  text-align: center;
   color: $text-color;
 }
 
-
+@import "reset";
+@import "App";
+@import "SearchForm";
 @import "GeocodeResult";
+@import "Map";
+@import "HotelsTable";
+@import "HotelsClickableTh";

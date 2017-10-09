@@ -1,66 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+} from 'react-router-dom';
 
-import { geocode } from '../domain/Geocoder';
-import GeocodeResult from './GeocodeResult';
-import Map from './Map';
-import SearchForm from './SearchForm';
+import SearchPage from './SearchPage';
+import AboutPage from './AboutPage';
 
-const GEOCODE_ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json';
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: {
-        lat: 34.39208,
-        lng: 132.450993,
-      },
-    };
-  }
-
-  setErrorMessage(message) {
-    this.setState({
-      address: message,
-      location: {
-        lat: 0,
-        lng: 0,
-      },
-    });
-  }
-
-  handlePlaceSubmit(place) {
-    geocode(place).then(({ status, address, location }) => {
-      switch (status) {
-        case 'OK':
-        {
-          this.setState({ address, location });
-          break;
-        }
-        case 'ZERO_RESULTS':
-        {
-          this.setErrorMessage('結果が見つかりませんでした');
-          break;
-        }
-        default:
-        {
-          this.setErrorMessage('エラーが発生しました');
-        }
-      }
-    }).catch(() => {
-      this.setErrorMessage('通信に失敗しました');
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>緯度経度検索</h1>
-        <SearchForm onSubmit={place => this.handlePlaceSubmit(place)} />
-        <GeocodeResult address={this.state.address} location={this.state.location} />
-        <Map location={this.state.location} />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <Router>
+    <div className="app">
+      <ul className="left-navi">
+        <li>
+          <Link to="/">{'ホテル検索'}</Link>
+        </li>
+        <li>
+          <Link to="/about">{'About'}</Link>
+        </li>
+      </ul>
+      <Switch>
+        <Route exact path="/" component={SearchPage} />
+        <Route exact path="/about" component={AboutPage} />
+      </Switch>
+    </div>
+  </Router>
+);
 
 export default App;

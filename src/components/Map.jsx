@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 const InnerMap = compose(withScriptjs, withGoogleMap)(({ location, marker }) => (
   <GoogleMap
     defaultZoom={12}
-    defaultCenter={position}
-    center={position}
+    defaultCenter={location}
+    center={location}
   >
     <Marker {...marker} />
   </GoogleMap>
@@ -16,17 +16,16 @@ const InnerMap = compose(withScriptjs, withGoogleMap)(({ location, marker }) => 
 const Map = ({ location }) => (
   <InnerMap
     location={location}
-    marker={{ location }}
+    marker={{ position: location }}
     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-    loadingElement={<div style={{ height: '100%' }} />}
-    containerElement={<div style={{ height: '400px' }} />}
-    mapElement={<div style={{ height: '100%' }} />}
+    loadingElement={<div className="map-loading-element" />}
+    containerElement={<div className="map-container-element" />}
+    mapElement={<div className="map-element" />}
   />
 );
 
 Map.propTypes = {
-  lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired,
+  location: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default Map;
